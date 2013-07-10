@@ -18,13 +18,13 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
 # Add gtest
 ExternalProject_Add(
   googletest
-  SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
-  TIMEOUT 10
+  # TODO: find the folder rather than the tar.gz
+  URL ~/Softwares/gtest-svn.tar.gz
   # Force separate output paths for debug and release builds to allow easy
   # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
   CMAKE_ARGS -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
   -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=ReleaseLibs
-  -Dgtest_force_shared_crt=ON
+  -Dgtest_force_shared_crt=OFF
   # Disable install step
   INSTALL_COMMAND ""
   # Wrap download, configure and build steps in a script to log output
@@ -44,6 +44,10 @@ ADD_DEPENDENCIES(MainTest googletest)
 
 # Specify MainTest's link libraries
 ExternalProject_Get_Property(googletest binary_dir)
-TARGET_LINK_LIBRARIES(MainTest
-  debug ${binary_dir}/DebugLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_FIND_LIBRARY_SUFFIXES}
-  optimized ${binary_dir}/ReleaseLibs/${CMAKE_FIND_LIBRARY_PREFIXES}gtest${CMAKE_FIND_LIBRARY_SUFFIXES})
+#TARGET_LINK_LIBRARIES(MainTest ${binary_dir}/DebugLibs/libgtest.a)
+
+#include_directories($ENV{GTEST_ROOT}/include)
+link_directories(${binary_dir})
+#TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
+target_link_libraries(MainTest ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(MainTest ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a)
