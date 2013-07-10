@@ -10,8 +10,8 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
 # Add gtest
 EXTERNALPROJECT_ADD(
   googletest
-  # TODO: find the folder rather than the tar.gz
-  URL ~/Softwares/gtest-svn.tar.gz
+  # SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
+  URL ${PROJECT_SOURCE_DIR}/ext/gtest-1.6.0.zip
   # Force separate output paths for debug and release builds to allow easy
   # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
   CMAKE_ARGS -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
