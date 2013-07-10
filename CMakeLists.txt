@@ -41,3 +41,7 @@ ADD_DEPENDENCIES(MainTest googletest)
 # Specify MainTest's link libraries
 TARGET_LINK_LIBRARIES(MainTest ${CMAKE_THREAD_LIBS_INIT})
 TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
+
+# Configure Ctest
+ENABLE_TESTING()
+ADD_TEST(NAME MainTest COMMAND MainTest)
