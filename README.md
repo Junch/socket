@@ -7,6 +7,7 @@ It is mostly for personal use.
 
 ```bash
 mkdir build
+cd build
 cmake ..
 make
 ```
