@@ -1,14 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
 PROJECT(Test)
 
-# Create main.cpp which uses gtest
-FILE(WRITE src/main.cpp "#include \"gtest/gtest.h\"\n\n")
-FILE(APPEND src/main.cpp "TEST(A, B) { SUCCEED(); }\n")
-FILE(APPEND src/main.cpp "int main(int argc, char **argv) {\n")
-FILE(APPEND src/main.cpp "  testing::InitGoogleTest(&argc, argv);\n")
-FILE(APPEND src/main.cpp "  return RUN_ALL_TESTS();\n")
-FILE(APPEND src/main.cpp "}\n")
-
 # Enable ExternalProject CMake module
 INCLUDE(ExternalProject)
 
