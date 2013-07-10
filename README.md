@@ -3,6 +3,15 @@
 This repository contains an example of use of Cmake and [GoogleTest](https://code.google.com/p/googletest/downloads/detail?name=gtest-1.6.0.zip) for a C++ file.
 It is mostly for personal use.
 
+## Use
+
+```bash
+mkdir build
+cmake ..
+make
+```
+
+
 ## Inspiration and thanks
 I copied upon many, more documented examples found on StackOverflow and:
 * This [simple example](http://lembra.wordpress.com/2011/10/17/building-google-test-framework-with-cmake/), but with less hard-coded things
