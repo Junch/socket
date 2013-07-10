@@ -16,7 +16,7 @@ INCLUDE(ExternalProject)
 SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
 
 # Add gtest
-ExternalProject_Add(
+EXTERNALPROJECT_ADD(
   googletest
   # TODO: find the folder rather than the tar.gz
   URL ~/Softwares/gtest-svn.tar.gz
@@ -33,8 +33,12 @@ ExternalProject_Add(
   LOG_BUILD ON)
 
 # Specify include dir
-ExternalProject_Get_Property(googletest source_dir)
+EXTERNALPROJECT_GET_PROPERTY(googletest source_dir)
 INCLUDE_DIRECTORIES(${source_dir}/include)
+
+# This link_directories needs to be BEFORE the add_executable
+EXTERNALPROJECT_GET_PROPERTY(googletest binary_dir)
+LINK_DIRECTORIES(${binary_dir})
 
 # Add test executable target
 ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
@@ -43,11 +47,5 @@ ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
 ADD_DEPENDENCIES(MainTest googletest)
 
 # Specify MainTest's link libraries
-ExternalProject_Get_Property(googletest binary_dir)
-#TARGET_LINK_LIBRARIES(MainTest ${binary_dir}/DebugLibs/libgtest.a)
-
-#include_directories($ENV{GTEST_ROOT}/include)
-link_directories(${binary_dir})
-#TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
-target_link_libraries(MainTest ${CMAKE_THREAD_LIBS_INIT})
-TARGET_LINK_LIBRARIES(MainTest ${binary_dir}/${CMAKE_FIND_LIBRARY_PREFIXES}gtest.a)
+TARGET_LINK_LIBRARIES(MainTest ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
