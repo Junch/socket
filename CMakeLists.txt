@@ -11,7 +11,7 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
 EXTERNALPROJECT_ADD(
   googletest
   # SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
-  URL ${PROJECT_SOURCE_DIR}/ext/gtest-1.6.0.zip
+  URL ${PROJECT_SOURCE_DIR}/ext/gtest-1.7.0.zip
   # Force separate output paths for debug and release builds to allow easy
   # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
   CMAKE_ARGS -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
@@ -39,7 +39,11 @@ ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
 ADD_DEPENDENCIES(MainTest googletest)
 
 # Specify MainTest's link libraries
-TARGET_LINK_LIBRARIES(MainTest ${CMAKE_THREAD_LIBS_INIT})
+
+FIND_PACKAGE(Threads REQUIRED)
+IF (Threads_FOUND)
+  TARGET_LINK_LIBRARIES (MainTest ${CMAKE_THREAD_LIBS_INIT})
+ENDIF (Threads_FOUND)
 TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
 
 # Configure Ctest
