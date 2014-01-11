@@ -1,5 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
-PROJECT(Test C CXX)
+PROJECT(Test)
+
+SET(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
 
 # Enable ExternalProject CMake module
 INCLUDE(ExternalProject)
