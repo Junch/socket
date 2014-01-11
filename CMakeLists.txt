@@ -21,9 +21,9 @@ SET_DIRECTORY_PROPERTIES(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/ThirdParty)
 
 # Add gtest
 EXTERNALPROJECT_ADD(
-  googletest
+  googlemock
   # SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
-  URL ${PROJECT_SOURCE_DIR}/ext/gtest-1.7.0.zip
+  URL ${PROJECT_SOURCE_DIR}/ext/gmock-1.7.0.zip
   # Force separate output paths for debug and release builds to allow easy
   # identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
   CMAKE_ARGS -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=DebugLibs
@@ -37,25 +37,26 @@ EXTERNALPROJECT_ADD(
   LOG_BUILD ON)
 
 # Specify include dir
-EXTERNALPROJECT_GET_PROPERTY(googletest source_dir)
+EXTERNALPROJECT_GET_PROPERTY(googlemock source_dir)
 INCLUDE_DIRECTORIES(${source_dir}/include)
+INCLUDE_DIRECTORIES(${source_dir}/gtest/include)
 
 # This link_directories needs to be BEFORE the add_executable
-EXTERNALPROJECT_GET_PROPERTY(googletest binary_dir)
+EXTERNALPROJECT_GET_PROPERTY(googlemock binary_dir)
 LINK_DIRECTORIES(${binary_dir})
 
 # Add test executable target
 ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
-# Create dependency of MainTest on googletest
-ADD_DEPENDENCIES(MainTest googletest)
+# Create dependency of MainTest on googlemock
+ADD_DEPENDENCIES(MainTest googlemock)
 
 # Required for gCov
 SET(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
 # Specify MainTest's link libraries
 FIND_PACKAGE(Threads)
-TARGET_LINK_LIBRARIES(MainTest gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
+TARGET_LINK_LIBRARIES(MainTest gmock gmock_main ${CMAKE_THREAD_LIBS_INIT})
 
 # Configure Ctest
 ENABLE_TESTING()
