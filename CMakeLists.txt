@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7 FATAL_ERROR)
-PROJECT(Test)
+PROJECT(Test C CXX)
 
 # Enable ExternalProject CMake module
 INCLUDE(ExternalProject)
@@ -39,12 +39,8 @@ ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
 ADD_DEPENDENCIES(MainTest googletest)
 
 # Specify MainTest's link libraries
-
-FIND_PACKAGE(Threads REQUIRED)
-IF (Threads_FOUND)
-  TARGET_LINK_LIBRARIES (MainTest ${CMAKE_THREAD_LIBS_INIT})
-ENDIF (Threads_FOUND)
-TARGET_LINK_LIBRARIES(MainTest gtest gtest_main)
+FIND_PACKAGE(Threads)
+TARGET_LINK_LIBRARIES(MainTest gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
 
 # Configure Ctest
 ENABLE_TESTING()
