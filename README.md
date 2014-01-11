@@ -1,6 +1,6 @@
-# GoogleTest + Cmake example
+# GoogleTest + gcov + Cmake example
 
-This repository contains an example of use of Cmake and [GoogleTest](https://code.google.com/p/googletest/downloads/detail?name=gtest-1.6.0.zip) for a C++ file.
+This repository contains an example of use of Cmake and [GoogleTest](https://code.google.com/p/googletest/downloads/detail?name=gtest-1.7.0.zip) for a C++ file.
 It is mostly for personal use.
 
 ## Use
@@ -12,8 +12,8 @@ cmake ..
 make
 make test
 ctest
+make Test_coverage
 ```
-
 
 ## Inspiration and thanks
 I copied upon many, more documented examples found on StackOverflow and:
@@ -22,4 +22,4 @@ I copied upon many, more documented examples found on StackOverflow and:
 
 ## Todo
 
-* Decide whether embedding the .zip is a good or a bad idea
+* Add the support to GoogleMock
