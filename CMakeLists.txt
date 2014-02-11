@@ -51,6 +51,10 @@ ADD_EXECUTABLE(MainTest ${PROJECT_SOURCE_DIR}/src/main.cpp)
 # Create dependency of MainTest on googlemock
 ADD_DEPENDENCIES(MainTest googlemock)
 
+ADD_EXECUTABLE(server ${PROJECT_SOURCE_DIR}/src/server.cpp)
+
+ADD_EXECUTABLE(client ${PROJECT_SOURCE_DIR}/src/client.cpp)
+
 # Required for gCov
 SET(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
 
