@@ -1,0 +1,8 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 2.6)
+
+# You can specify the build type as below 
+# -DCMAKE_BUILD_TYPE=Debug
+# -DCMAKE_BUILD_TYPE=Release
+
+PROJECT (StudyPthread)
+ADD_EXECUTABLE(pi pi.cpp)
