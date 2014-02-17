@@ -73,7 +73,9 @@ int main(int argc, char* argv[])
 	pthread_create(&tid3, NULL, c, NULL);
 	pthread_create(&tid4, NULL, d, NULL);
 
+    pthread_mutex_lock(&mutex);
 	pthread_cond_signal(&cond_a);
+	pthread_mutex_unlock(&mutex);
 
 	pthread_join(tid1, NULL);
 	pthread_join(tid2, NULL);
