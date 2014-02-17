@@ -41,7 +41,12 @@ int main(int argc, char* argv[])
 
 	pthread_t pid, cid;
 
-	sem_init(&blank_number, 0, NUM);
+	int status = sem_init(&blank_number, 0, NUM);
+	if (status != 0) {
+		perror("sem_init");
+		return 1;
+	}
+
 	sem_init(&product_number, 0, 0);
 	
 	pthread_create(&pid, NULL, produce, NULL);
