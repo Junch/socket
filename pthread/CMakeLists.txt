@@ -24,5 +24,8 @@ TARGET_LINK_LIBRARIES(exam3 ${CMAKE_THREAD_LIBS_INIT})
 ADD_EXECUTABLE(exam4 exam4.c)  # Print A B C A B C ...
 TARGET_LINK_LIBRARIES(exam4 ${CMAKE_THREAD_LIBS_INIT})
 
-ADD_EXECUTABLE(exam5 exam5.c)  # Print A B C A B C ...
+ADD_EXECUTABLE(exam5 exam5.c)  # Consumer, producer with semphare
 TARGET_LINK_LIBRARIES(exam5 ${CMAKE_THREAD_LIBS_INIT})
+
+ADD_EXECUTABLE(exam6 exam6.c)  # Consumer, producer with semphare (support Mac)
+TARGET_LINK_LIBRARIES(exam6 ${CMAKE_THREAD_LIBS_INIT})
