@@ -4,7 +4,7 @@
 #include <semaphore.h>
 #include <unistd.h>
 
-const int NUM = 5;
+#define NUM  5
 int queue[NUM];
 sem_t blank_number;
 sem_t product_number;
