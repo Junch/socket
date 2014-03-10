@@ -8,6 +8,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <errno.h>
+#include <libgen.h>
 
 #define    MAXLINE        1024
 
@@ -15,6 +17,35 @@ void usage(char *command)
 {
     printf("usage :%s ipaddr portnum filename\n", command);
     exit(0);
+}
+
+ssize_t writen(int fd, const void *vptr, size_t n)
+{
+    size_t      nleft;
+    ssize_t     nwritten;
+    const char  *ptr;
+    
+    ptr = vptr;
+    nleft = n;
+    while (nleft > 0) {
+        if ( (nwritten = write(fd, ptr, nleft)) <= 0) {
+            if (nwritten < 0 && errno == EINTR)
+                nwritten = 0;       /* and call write() again */
+            else
+                return(-1);         /* error */
+        }
+        
+        nleft -= nwritten;
+        ptr   += nwritten;
+    }
+    return(n);
+}
+
+int sendFileName(int fd, char* filename){
+    int flen = strlen(filename);
+    int flenSend = htonl(flen);
+    writen(fd, &flenSend, 4);
+    return writen(fd, filename, flen);
 }
 
 int main(int argc,char **argv)
@@ -52,7 +83,13 @@ int main(int argc,char **argv)
     i_ret = connect(sock_id, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr));
     if (-1 == i_ret) {
         printf("Connect socket failed\n");
-       return -1;
+        return -1;
+    }
+
+    char *fname = basename(argv[3]);
+    if (sendFileName(sock_id, fname) < 0){
+        perror("Send file name failed\n");
+        return -1;
     }
     
     /* transported the file commented by guoqingbo*/

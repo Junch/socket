@@ -1,41 +1,37 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <errno.h>
 
 #define    MAXLINE        1024
 
 void usage(char *command);
 int  createSocket(int portid);
-void receiveFile(FILE *fp, int sock_id);
+void receiveFile(int sock_id);
+ssize_t readn(int fd, void *vptr, size_t n);
+void getFileName(int fd, char buf[], int bufsize);
 
 int main(int argc,char **argv)
 {
-    if (argc != 3) {
+    if (argc != 2) {
         usage(argv[0]);
-    }
-
-    FILE *fp;
-    if ((fp = fopen(argv[2], "w")) == NULL) {
-        perror("Open file failed\n");
-        exit(0);
     }
 
     int sock_id = createSocket(atoi(argv[1]));
     
-    receiveFile(fp, sock_id);
+    receiveFile(sock_id);
     close(sock_id);
     return 0;
 }
 
 void usage(char *command)
 {
-    printf("usage :%s portnum filename\n", command);
+    printf("usage :%s portnum\n", command);
     exit(0);
 }
 
@@ -66,7 +62,7 @@ int createSocket(int portid)
     return sock_id;
 }
 
-void receiveFile(FILE *fp, int sock_id)
+void receiveFile(int sock_id)
 {
     char    buf[MAXLINE];
     struct  sockaddr_in clie_addr;
@@ -80,6 +76,14 @@ void receiveFile(FILE *fp, int sock_id)
         }
         bzero(buf, MAXLINE);
         
+        getFileName(link_id, buf, MAXLINE);
+        FILE *fp;
+        if ((fp = fopen(buf, "w")) == NULL) {
+            perror("Open file failed\n");
+            exit(0);
+        }
+        
+        bzero(buf, MAXLINE);
         ssize_t recv_len;
         while ((recv_len = recv(link_id, buf, MAXLINE, 0)) != 0) {
             if(recv_len < 0) {
@@ -100,3 +104,51 @@ void receiveFile(FILE *fp, int sock_id)
         close(link_id);
     }
 }
+
+void getFileName(int fd, char buf[], int bufsize)
+{
+    int flen = 0;
+    if (readn(fd, &flen, 4) < 0) {
+        perror("Failed to get file name length");
+        return;
+    }
+    
+    flen = ntohl(flen);
+    printf("file name length = %d\n", flen);
+
+    if (flen > bufsize) {
+        perror("Failed to get the file name");
+        return;
+    }
+
+    if (readn(fd, buf, flen) < 0) {
+        perror("Failed to get the file name");
+        return;
+    }
+    
+    printf("file name: %s\n", buf);
+}
+
+ssize_t readn(int fd, void *vptr, size_t n)
+{
+    size_t nleft;
+    ssize_t nread;
+    char *ptr;
+    ptr = vptr;
+    nleft = n;
+    
+    while (nleft > 0) {
+        if ( (nread = read(fd, ptr, nleft)) < 0) {
+            if (errno == EINTR)
+                nread = 0; /* and call read() again */
+            else
+                return (-1);
+        } else if (nread == 0)
+            break; /* EOF */
+        
+        nleft -= nread;
+        ptr += nread;
+    }
+    return (n - nleft); /* return >= 0 */
+}
+
