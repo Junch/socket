@@ -4,3 +4,5 @@ PROJECT(Transfer)
 ADD_EXECUTABLE(server ${PROJECT_SOURCE_DIR}/server.c)
 
 ADD_EXECUTABLE(client ${PROJECT_SOURCE_DIR}/client.c)
+
+ADD_EXECUTABLE(server_fork ${PROJECT_SOURCE_DIR}/server_fork.c)
