@@ -62,13 +62,11 @@ int main(int argc,char **argv)
         usage(argv[0]);
     }
     
-    /* open the file to be transported commented by guoqingbo*/
-    if ((fp = fopen(argv[3],"r")) == NULL) {
+    if ((fp = fopen(argv[3],"rb")) == NULL) {
         perror("Open file failed\n");
         exit(0);
     }
     
-    /* create the socket commented by guoqingbo*/
     if ((sock_id = socket(AF_INET,SOCK_STREAM,0)) < 0) {
         perror("Create socket failed\n");
         exit(0);
@@ -77,7 +75,8 @@ int main(int argc,char **argv)
     memset(&serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(atoi(argv[2]));
-    inet_pton(AF_INET, argv[1], &serv_addr.sin_addr);
+    //inet_pton(AF_INET, argv[1], &serv_addr.sin_addr);
+    serv_addr.sin_addr.s_addr = inet_addr(argv[1]);
    
     /* connect the server commented by guoqingbo*/
     i_ret = connect(sock_id, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr));
