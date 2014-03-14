@@ -1,0 +1,6 @@
+ADD_EXECUTABLE(client05 client.c)
+ADD_EXECUTABLE(server_sel server1.c)
+ADD_EXECUTABLE(server_fork server2.c)
+ADD_EXECUTABLE(server_prefork server3.c)
+ADD_EXECUTABLE(server_thread server4.c)
+ADD_EXECUTABLE(server_prethread server5.c)
