@@ -1,8 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <string.h>
+#include <unistd.h>
 
 void child_func(int childnum);
 
@@ -32,7 +35,7 @@ void child_func(int childnum)
 {
     int sock;
     struct sockaddr_in sAddr;
-    char buffer[25];
+    char buffer[64]={0};
     int x;
 
     sAddr.sin_family = AF_INET;
@@ -50,11 +53,11 @@ void child_func(int childnum)
       return;
     }
       
-    snprintf(buffer, 128, "data from client #%i.", childnum);
+    snprintf(buffer, sizeof(buffer), "data from client #%i.", childnum);
     sleep(1);
-    printf("child #%i sent %i chars\n", childnum, send(sock, buffer, strlen(buffer), 0));
+    printf("child #%i sent %zi chars\n", childnum, send(sock, buffer, strlen(buffer), 0));
     sleep(1);
-    printf("child #%i received %i chars\n", childnum, recv(sock, buffer, 25, 0));
+    printf("child #%i received %zi chars\n", childnum, recv(sock, buffer, sizeof(buffer), 0));
     sleep(1);
     
     close(sock);
