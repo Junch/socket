@@ -90,7 +90,7 @@ int isconnected( SOCKET s, fd_set *rd, fd_set *wr, fd_set *ex )
 int isconnected( SOCKET s, fd_set *rd, fd_set *wr, fd_set *ex )
 {
 	int err;
-	int len = sizeof( err );;
+	socklen_t len = sizeof( err );;
 
 	errno = 0;			/* assume no error */
 	if ( !FD_ISSET( s, rd ) && !FD_ISSET( s, wr ) )

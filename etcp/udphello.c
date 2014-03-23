@@ -66,7 +66,7 @@ static void set_address( char *hname, char *sname,
 static void server( SOCKET s, struct sockaddr_in *localp )
 {
 	struct sockaddr_in peer;
-	int peerlen;
+	socklen_t peerlen;
 	char buf[ 1 ];
 
 	for ( ;; )

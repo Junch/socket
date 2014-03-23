@@ -66,7 +66,7 @@ static void set_address( char *hname, char *sname,
 static void client( SOCKET s, struct sockaddr_in *peerp )
 {
 	int rc;
-	int peerlen;
+	socklen_t peerlen;
 	char buf[ 120 ];
 /*@.bp*/
 	peerlen = sizeof( *peerp );

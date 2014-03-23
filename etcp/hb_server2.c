@@ -15,7 +15,7 @@ int main( int argc, char **argv )
 	int rc;
 	int maxfd1;
 	int missed_heartbeats = 0;
-	int peerlen = sizeof( peer );
+	socklen_t peerlen = sizeof( peer );
 	char hbmsg[ 1 ];
 
 	INIT();

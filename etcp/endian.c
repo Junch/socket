@@ -4,7 +4,7 @@
 int main( void )
 {
 	u_int32_t x = 0x12345678;	/* 305419896 */
-	unsigned char *xp = ( char * )&x;
+	unsigned char *xp = ( unsigned char * )&x;
 
 	printf( "%0x %0x %0x %0x\n",
 		xp[ 0 ], xp[ 1 ], xp[ 2 ], xp[ 3 ] );

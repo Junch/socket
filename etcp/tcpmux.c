@@ -167,7 +167,7 @@ int main( int argc, char **argv )
 {
 	struct sockaddr_in peer;
 	int s;
-	int peerlen;
+	socklen_t peerlen;
 
 	/* Initialize and start the tcpmux server */
 

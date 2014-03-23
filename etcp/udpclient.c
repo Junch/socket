@@ -4,7 +4,7 @@ int main( int argc, char **argv )
 	struct sockaddr_in peer;
 	SOCKET s;
 	int rc = 0;
-	int len;
+	socklen_t len;
 	char buf[ 120 ];
 
 	INIT();

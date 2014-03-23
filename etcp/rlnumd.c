@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void main( void )
+int main( void )
 {
 	int cnt = 0;
 	char line[ 1024 ];
@@ -13,4 +13,6 @@ void main( void )
 	setvbuf( stdout, NULL, _IOLBF, 0 );
 	while ( fgets( line, sizeof( line ), stdin ) != NULL )
 		printf( "%3i: %s", ++cnt, line );
+
+    return 0;
 }

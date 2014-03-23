@@ -13,7 +13,7 @@ int main( int argc, char **argv )
 	SOCKET shb;
 	SOCKET slisten;
 	int rc;
-	int hblistenlen = sizeof( hblisten );
+	socklen_t hblistenlen = sizeof( hblisten );
 	int heartbeats = 0;
 	int maxfd1;
 	char hbmsg[ 1 ];

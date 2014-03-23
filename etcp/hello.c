@@ -77,7 +77,7 @@ int main( int argc, char **argv )
 	struct sockaddr_in peer;
 	char *hname;
 	char *sname;
-	int peerlen;
+	socklen_t peerlen;
 	SOCKET s1;
 	SOCKET s;
 	const int on = 1;

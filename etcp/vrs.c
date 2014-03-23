@@ -5,7 +5,7 @@ int main( int argc, char **argv )
 	struct sockaddr_in peer;
 	SOCKET s;
 	SOCKET s1;
-	int peerlen = sizeof( peer );
+	socklen_t peerlen = sizeof( peer );
 	int n;
 	char buf[ 10 ];
 
